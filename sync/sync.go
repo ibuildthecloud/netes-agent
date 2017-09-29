@@ -12,6 +12,10 @@ func Activate(clientset *kubernetes.Clientset, watchClient *watch.Client, deploy
 		return nil, err
 	}
 
+	if err := reconcileVolumes(clientset, watchClient, deploymentUnit); err != nil {
+		return nil, err
+	}
+
 	pod := podFromDeploymentUnit(deploymentUnit)
 	createdPod, err := reconcilePod(clientset, watchClient, pod, progressResponder)
 	if err != nil {
