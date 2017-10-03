@@ -1,11 +1,16 @@
 package manager
 
 import (
+	"errors"
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/rancher/event-subscriber/events"
 	"github.com/rancher/go-rancher/v3"
+)
+
+var (
+	ErrTimeout = errors.New("Timeout waiting")
 )
 
 func wrapHandler(handler func(event *events.Event, apiClient *client.RancherClient) (*client.Publish, error)) func(event *events.Event, apiClient *client.RancherClient) error {
